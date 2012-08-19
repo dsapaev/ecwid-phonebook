@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="001" author="d.sapaev">
+    <comment>Таблица Human</comment>
+      <createTable tableName="Human" remarks="Таблица людей">
+          <column name="ID" type="BIGINT" remarks="П.К.">
+              <constraints primaryKey="true" primaryKeyName="PK_HUMAN"/>
+          </column>
+          <column name="FIRST_NAME" type="VARCHAR(50)" remarks="Имя">
+              <constraints nullable="false"/>
+          </column>
+          <column name="LAST_NAME" type="VARCHAR(50)" remarks="Фамилия">
+              <constraints nullable="false"/>
+          </column>
+      </createTable>
+
+      <addUniqueConstraint tableName="Human" columnNames="FIRST_NAME, LAST_NAME" constraintName="UNI_HUMAN1"/>
+
+      <comment>Таблица PhoneNumber</comment>
+      <createTable tableName="PhoneNumber" remarks="Таблица номеров">
+          <column name="ID" type="BIGINT" remarks="П.К.">
+              <constraints primaryKey="true" primaryKeyName="PK_PHONENUMBER"/>
+          </column>
+          <column name="PHONENUMBER" type="VARCHAR(50)" remarks="Номер телефона">
+              <constraints nullable="false"/>
+          </column>
+          <column name="HUMAN_ID" type="BIGINT" remarks="Человек, которому принадлежит номер">
+              <constraints nullable="false"/>
+          </column>
+      </createTable>
+
+      <addForeignKeyConstraint constraintName="fk_pn_human"
+                               baseTableName="phoneNumber" baseColumnNames="HUMAN_ID"
+                               referencedTableName="Human" referencedColumnNames="id" onDelete="CASCADE" />
+
+      <addUniqueConstraint tableName="PhoneNumber" columnNames="PHONENUMBER" constraintName="UNI_PHONENUMBER1"/>
+
+  </changeSet>
+
+  <changeSet id="002" author="d.sapaev">
+    <comment>Заполнение тестовыми значениями</comment>
+    <insert tableName="Human">
+        <column name="id" value="1"/>
+        <column name="FIRST_NAME" value="Иван"/>
+        <column name="LAST_NAME" value="Иванов"/>
+    </insert>
+    <insert tableName="Human">
+        <column name="id" value="2"/>
+        <column name="FIRST_NAME" value="Сидр"/>
+        <column name="LAST_NAME" value="Сидоров"/>
+    </insert>
+    <insert tableName="Human">
+        <column name="id" value="3"/>
+        <column name="FIRST_NAME" value="Петр"/>
+        <column name="LAST_NAME" value="Петров"/>
+    </insert>
+    <insert tableName="Human">
+        <column name="id" value="4"/>
+        <column name="FIRST_NAME" value="Алексей"/>
+        <column name="LAST_NAME" value="Алексеев"/>
+    </insert>
+    <insert tableName="Human">
+        <column name="id" value="5"/>
+        <column name="FIRST_NAME" value="Сергей"/>
+        <column name="LAST_NAME" value="Сергеев"/>
+    </insert>
+
+    <insert tableName="PhoneNumber">
+        <column name="id" value="1"/>
+        <column name="PHONENUMBER" value="1231231"/>
+        <column name="HUMAN_ID" value="1"/>
+    </insert>
+    <insert tableName="PhoneNumber">
+        <column name="id" value="2"/>
+        <column name="PHONENUMBER" value="4698879"/>
+        <column name="HUMAN_ID" value="2"/>
+    </insert>
+    <insert tableName="PhoneNumber">
+        <column name="id" value="3"/>
+        <column name="PHONENUMBER" value="3258965"/>
+        <column name="HUMAN_ID" value="3"/>
+    </insert>
+    <insert tableName="PhoneNumber">
+        <column name="id" value="4"/>
+        <column name="PHONENUMBER" value="3789415"/>
+        <column name="HUMAN_ID" value="4"/>
+    </insert>
+    <insert tableName="PhoneNumber">
+        <column name="id" value="5"/>
+        <column name="PHONENUMBER" value="6897410"/>
+        <column name="HUMAN_ID" value="5"/>
+    </insert>
+  </changeSet>
+</databaseChangeLog>
+

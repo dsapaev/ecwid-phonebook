@@ -1,0 +1,59 @@
+configurations {
+  gwtCompile
+}
+
+//проверить, заданы ли необходимые параметры
+getRequiredProjectProp('gwtVersion')
+getRequiredProjectProp('gwtBuildDir')
+
+dependencies {
+  compile "com.google.gwt:gwt-servlet:${project.gwtVersion}"
+  gwtCompile "com.google.gwt:gwt-user:${project.gwtVersion}"
+  gwtCompile "com.google.gwt:gwt-dev:${project.gwtVersion}"
+}
+
+task gwtCompile << {
+  def buildDir = file(gwtBuildDir)
+  if (!buildDir.exists()) {
+    buildDir.mkdirs()
+  }
+
+  def gwtXmx = getProjectProp('gwtXmx', '-Xmx512M')
+  def gwtLogLevel = getProjectProp('gwtLogLevel', 'INFO')
+  //OBF || PRETTY || DETAILED
+  def gwtStyle = getProjectProp('gwtStyle', 'PRETTY')
+  def gwtModule = getRequiredProjectProp('gwtModule')
+  def srcDirs = sourceSets.main.java.srcDirs.plus(sourceSets.main.resources.srcDirs).join(';')
+
+  ant.java(classname:'com.google.gwt.dev.Compiler', failOnError:'true', fork:'true', output:"${rootDir.absolutePath}/gwt.compile.out"){
+    jvmarg(value: gwtXmx)
+    arg(line: "-war ${gwtBuildDir}")
+    arg(line: "-logLevel ${gwtLogLevel}")
+    arg(line: "-style ${gwtStyle}")
+    arg(value: gwtModule)
+    classpath {
+      pathElement(path: srcDirs)
+      pathElement(path: configurations.compile.asPath)
+      pathElement(path: configurations.gwtCompile.asPath)
+    }
+  }
+}
+
+war.dependsOn gwtCompile
+
+war {
+  from gwtBuildDir
+}
+
+
+def Object getProjectProp(String propName, Object defaultValue) {
+  return project.hasProperty(propName) ? project.property(propName) : defaultValue;
+}
+
+def Object getRequiredProjectProp(String propName) throws Exception {
+  if (project.hasProperty(propName)) {
+    return project.property(propName)
+  }
+  println "Required property ${propName} was not set!"
+  throw new Exception("Required property ${propName} was not set!")
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <jee:jndi-lookup id="exampleDataSource" jndi-name="java:comp/env/jdbc/ExampleDataSource"/>
+
+      <!--bean id="debugDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.firebirdsql.jdbc.FBDriver"/>
+        <property name="url" value="jdbc:firebirdsql:127.0.0.1/3050:c:/work/db/base.fdb"/>
+        <property name="username" value="SYSDBA"/>
+        <property name="password" value="masterkey"/>
+      </bean-->
+
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <property name="dataSource" ref="exampleDataSource"/>
+    <property name="packagesToScan">
+      <list>
+        <value>com.ecwidtest.phonebook.server.bean</value>
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <value>
+        hibernate.dialect=org.hibernate.dialect.FirebirdDialect
+      </value>
+    </property>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <tx:annotation-driven/>
+</beans>
