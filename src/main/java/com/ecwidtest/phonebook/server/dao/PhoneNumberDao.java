@@ -11,4 +11,8 @@ import java.util.List;
 public interface PhoneNumberDao {
 
     List<PhoneNumber> loadList();
+
+    Long add(PhoneNumber phoneNumber);
+
+    PhoneNumber delete(Long id);
 }

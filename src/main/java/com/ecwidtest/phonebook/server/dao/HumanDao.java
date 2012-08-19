@@ -7,7 +7,17 @@ import com.ecwidtest.phonebook.server.bean.Human;
  */
 public interface HumanDao {
 
-  Human add(Human arg);
+    /**
+     *
+     * @param human
+     * @return
+     */
+  Long add(Human human);
 
+    /**
+     *
+     * @param id
+     * @return
+     */
   Human delete(long id);
 }

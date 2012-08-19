@@ -18,20 +18,14 @@ public class HumanDaoImpl extends Hibernate4DaoSupport implements HumanDao {
   }
 
     @Override
-    public Human add(Human arg) {
+    public Long add(Human human) {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            session.saveOrUpdate(arg);
-            return arg;
+            session.saveOrUpdate(human);
+            return human.getId();
         } finally {
-            try {
-                if (session != null) {
-                    session.close();
-                }
-            } catch (HibernateException ex) {
-                logger.error(ex.toString(), ex);
-            }
+            closeSession(session);
         }
     }
 
@@ -47,13 +41,7 @@ public class HumanDaoImpl extends Hibernate4DaoSupport implements HumanDao {
 
             return toDelete;
         } finally {
-            try {
-                if (session != null) {
-                    session.close();
-                }
-            } catch (HibernateException ex) {
-                logger.error(ex.toString(), ex);
-            }
+            closeSession(session);
         }
     }
 }
