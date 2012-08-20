@@ -5,6 +5,7 @@ import com.ecwidtest.phonebook.server.bean.Human;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author d.sapaev
@@ -12,36 +13,23 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HumanDaoImpl extends Hibernate4DaoSupport implements HumanDao {
 
-  @Override
-  protected void checkDaoConfig() throws IllegalArgumentException {
-    //todo: implement
-  }
-
+    @Transactional
     @Override
     public Long add(Human human) {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            session.saveOrUpdate(human);
-            return human.getId();
-        } finally {
-            closeSession(session);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(human);
+        return human.getId();
     }
 
+    @Transactional
     @Override
     public Human delete(long id) {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            Human toDelete = (Human) session.get(Human.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        Human toDelete = (Human) session.get(Human.class, id);
 
-            if(toDelete!=null)
-                session.delete(toDelete);
+        if(toDelete!=null)
+            session.delete(toDelete);
 
-            return toDelete;
-        } finally {
-            closeSession(session);
-        }
+        return toDelete;
     }
 }
