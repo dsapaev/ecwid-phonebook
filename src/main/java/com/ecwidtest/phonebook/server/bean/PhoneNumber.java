@@ -18,7 +18,7 @@ public class PhoneNumber {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "human_id")
     private Human owner;
 

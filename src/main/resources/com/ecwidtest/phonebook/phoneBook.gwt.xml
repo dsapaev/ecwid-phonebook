@@ -2,12 +2,19 @@
     "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="phoneBook">
 
-  <!-- Inherit the core Web Toolkit stuff.                  -->
-  <inherits name='com.google.gwt.user.User'/>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.place.Place" />
+	<inherits name="com.google.gwt.activity.Activity" />
+	<inherits name="com.google.gwt.user.theme.standard.Standard" />
 
-    <source path='client'/>
-    <source path='common'/>
+	<source path='client' />
+	<source path='common' />
 
-    <!-- Specify the app entry point class.                   -->
-  <entry-point class='com.ecwidtest.phonebook.client.PhoneBook'/>
+	<!-- Specify the app entry point class. -->
+	<entry-point class="com.ecwidtest.phonebook.client.main.MainEntryPoint" />
+
+	<replace-with class="com.ecwidtest.phonebook.client.main.ClientFactoryImpl">
+		<when-type-is class="com.ecwidtest.phonebook.client.main.ClientFactory" />
+	</replace-with>
 </module>

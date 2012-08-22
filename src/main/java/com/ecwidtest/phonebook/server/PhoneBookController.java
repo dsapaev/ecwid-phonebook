@@ -7,6 +7,8 @@ import com.ecwidtest.phonebook.server.bean.Human;
 import com.ecwidtest.phonebook.server.bean.PhoneNumber;
 import com.ecwidtest.phonebook.server.dao.HumanDao;
 import com.ecwidtest.phonebook.server.dao.PhoneNumberDao;
+import com.google.gwt.view.client.Range;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,4 +97,30 @@ public class PhoneBookController implements PhoneBookService {
 
         phoneNumberDao.add(phoneNumber);
     }
+
+	@Override
+	public List<PhoneNumberDTO> loadData(Range range) {
+		List<PhoneNumberDTO> result = new ArrayList<PhoneNumberDTO>();
+		List<PhoneNumber> numberList = phoneNumberDao.loadList();
+		PhoneNumberDTO dto;
+		Human human;
+		HumanDTO humanDTO;
+		
+		for(PhoneNumber number: numberList){
+			dto = new PhoneNumberDTO();
+			dto.setId(number.getId());
+			dto.setPhoneNum(number.getPhoneNumber());
+			
+			human = number.getOwner();
+			humanDTO = new HumanDTO();
+			humanDTO.setId(human.getId());
+			humanDTO.setFirstName(human.getFirstName());
+			humanDTO.setLastName(human.getLastName());
+			
+			dto.setOwner(humanDTO);
+			result.add(dto);
+		}
+		
+		return result;
+	}
 }

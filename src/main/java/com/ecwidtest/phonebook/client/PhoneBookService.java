@@ -3,6 +3,7 @@ package com.ecwidtest.phonebook.client;
 import com.ecwidtest.phonebook.common.bean.PhoneNumberDTO;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.view.client.Range;
 
 import java.util.List;
 
@@ -28,4 +29,10 @@ public interface PhoneBookService extends RemoteService {
     * @param number
     */
   void editNumber(PhoneNumberDTO number);
+  
+  /**
+   * 
+   * @return
+   */
+  List<PhoneNumberDTO> loadData(Range range);
 }

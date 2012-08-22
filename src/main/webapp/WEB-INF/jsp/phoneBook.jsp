@@ -5,9 +5,7 @@
   <!--                                           -->
   <!-- Any title is fine                         -->
   <!--                                           -->
-  <title>Wrapper HTML for App</title>
-
-  <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/PhoneBook.css">
+  <title>PhoneBook</title>
 
   <!--                                            -->
   <!-- This script is required bootstrap stuff.   -->
@@ -22,20 +20,6 @@
 <!--                                           -->
 <body>
 
-<h1>Sample Application</h1>
-
-<p>
-  This is an example of a host page for the App application.
-  You can attach a Web Toolkit module to any HTML page you like,
-  making it easy to add bits of AJAX functionality to existing pages
-  without starting from scratch.
-</p>
-
-<table align="center">
-  <tr>
-    <td id="slot1"></td>
-    <td id="slot2"></td>
-  </tr>
-</table>
+<%--<div id="div1" width="500px" height="500px"/>--%>
 </body>
 </html>

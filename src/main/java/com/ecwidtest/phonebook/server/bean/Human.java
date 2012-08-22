@@ -23,10 +23,10 @@ public class Human {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
     @OneToMany
